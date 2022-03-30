@@ -29,6 +29,17 @@ namespace OtusHandlingExeptions.Tests
         }
 
         [Fact]
+        public void RepeatExceptionCommand_ShouldThrowException()
+        {
+            var exc = new ExceptionCommand();
+            var command = new RepeatExceptionCommand(exc);
+
+            var result = () => command.Execute();
+
+            result.Should().Throw<Exception>();
+        }
+
+        [Fact]
         public void RepeaterCommand_ShouldExecuteProvidedCommand()
         {
             var mockedCommand = new Mock<ICommand>();
