@@ -1,10 +1,10 @@
 ﻿namespace OtusHandlingExeptions.Commands
 {
-    public class RepeatExceptionCommand : ICommand
+    public class DoubleRepeaterCommand : ICommand
     {
-        private readonly ExceptionCommand _command;
+        private readonly ICommand _command;
 
-        public RepeatExceptionCommand(ExceptionCommand command)
+        public DoubleRepeaterCommand(ICommand command)
         {
             _command = command;
         }

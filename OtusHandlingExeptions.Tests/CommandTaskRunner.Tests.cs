@@ -73,15 +73,15 @@ namespace OtusHandlingExeptions.Tests
         {
             var commandLogger = new Mock<ILogger>();
             var exCommand = new ExceptionCommand();
-            RepeatExceptionCommand repeatException = null;
+            DoubleRepeaterCommand doubleRepeater = null;
             RepeaterCommand repeater = null;
             _queue.Enqueue(exCommand);
             void HandleExceptionCommand(ExceptionCommand command, NotImplementedException exception)
             {
-                repeatException = new RepeatExceptionCommand(command);
-                _queue.Enqueue(repeatException);
+                doubleRepeater = new DoubleRepeaterCommand(command);
+                _queue.Enqueue(doubleRepeater);
             }
-            void HandleRepeatExceptionCommand(RepeatExceptionCommand command, NotImplementedException exception)
+            void HandleRepeatExceptionCommand(DoubleRepeaterCommand command, NotImplementedException exception)
             {
                 repeater = new RepeaterCommand(command);
                 _queue.Enqueue(repeater);
@@ -91,12 +91,12 @@ namespace OtusHandlingExeptions.Tests
                 _queue.Enqueue(new LoggerCommand(commandLogger.Object, "logged error"));
             }
             _handlerService.RegisterHandler<ExceptionCommand, NotImplementedException>(HandleExceptionCommand);
-            _handlerService.RegisterHandler<RepeatExceptionCommand, NotImplementedException>(HandleRepeatExceptionCommand);
+            _handlerService.RegisterHandler<DoubleRepeaterCommand, NotImplementedException>(HandleRepeatExceptionCommand);
             _handlerService.RegisterHandler<RepeaterCommand, NotImplementedException>(HandleRepeaterCommand);
 
             _runner.Run();
 
-            repeatException.Should().NotBeNull();
+            doubleRepeater.Should().NotBeNull();
             repeater.Should().NotBeNull();
             commandLogger.Verify(l => l.Log(It.IsAny<string>()), Times.Once);
         }
