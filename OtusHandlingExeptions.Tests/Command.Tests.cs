@@ -34,7 +34,7 @@ namespace OtusHandlingExeptions.Tests
             var mockedCommand = new Mock<ICommand>();
             var command = new DoubleRepeaterCommand(mockedCommand.Object);
 
-            var result = () => command.Execute();
+            command.Execute();
 
             mockedCommand.Verify(c => c.Execute(), Times.Once());
         }
